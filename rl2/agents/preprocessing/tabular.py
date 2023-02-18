@@ -39,7 +39,7 @@ class MABPreprocessing(Preprocessing):
         emb_a = one_hot(prev_action, depth=self._num_actions)
         prev_reward = prev_reward.unsqueeze(-1)
         prev_done = prev_done.unsqueeze(-1)
-        vec = tc.cat((emb_a, prev_reward, prev_done), dim=-1).float()
+        vec = tc.cat((emb_a.to('cuda:0'), prev_reward.to('cuda:0'), prev_done.to('cuda:0')), dim=-1).float()
         return vec
 
 

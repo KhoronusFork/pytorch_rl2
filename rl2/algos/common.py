@@ -77,15 +77,15 @@ def generate_meta_episode(
         log_prob_a_t = pi_dist_t.log_prob(a_t)
 
         o_tp1, r_t, done_t, _ = env.step(
-            action=a_t.squeeze(0).detach().numpy(),
+            action=a_t.squeeze(0).cpu().detach().numpy(),
             auto_reset=True)
 
         meta_episode.obs[t] = o_t[0]
-        meta_episode.acs[t] = a_t.squeeze(0).detach().numpy()
+        meta_episode.acs[t] = a_t.squeeze(0).cpu().detach().numpy()
         meta_episode.rews[t] = r_t
         meta_episode.dones[t] = float(done_t)
-        meta_episode.logpacs[t] = log_prob_a_t.squeeze(0).detach().numpy()
-        meta_episode.vpreds[t] = vpred_t.squeeze(0).detach().numpy()
+        meta_episode.logpacs[t] = log_prob_a_t.squeeze(0).cpu().detach().numpy()
+        meta_episode.vpreds[t] = vpred_t.squeeze(0).cpu().detach().numpy()
 
         o_t = np.array([o_tp1])
         a_tm1 = np.array([meta_episode.acs[t]])

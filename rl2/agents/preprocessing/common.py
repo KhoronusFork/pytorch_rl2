@@ -46,6 +46,6 @@ def one_hot(ys: tc.LongTensor, depth: int) -> tc.FloatTensor:
 
     vecs_shape = list(ys.shape) + [depth]
     vecs = tc.zeros(dtype=tc.float32, size=vecs_shape)
-    vecs.scatter_(dim=-1, index=ys.unsqueeze(-1),
+    vecs.scatter_(dim=-1, index=ys.to('cuda:0').unsqueeze(-1),
                   src=tc.ones(dtype=tc.float32, size=vecs_shape))
     return vecs.float()

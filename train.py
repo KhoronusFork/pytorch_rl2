@@ -166,6 +166,8 @@ def create_net(
 
 
 def main():
+    tc.set_default_tensor_type('torch.cuda.FloatTensor')    
+
     args = create_argparser().parse_args()
     comm = get_comm()
 

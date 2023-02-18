@@ -27,5 +27,5 @@ class LayerNorm(tc.nn.Module):
             g = g.unsqueeze(0)
             b = b.unsqueeze(0)
 
-        scaled = g * standardized + b
+        scaled = g.to('cuda:0') * standardized.to('cuda:0') + b.to('cuda:0')
         return scaled

@@ -48,8 +48,8 @@ def compute_losses(
             list(map(lambda metaep: getattr(metaep, field), meta_episodes)),
             axis=0)
         if dtype == 'long':
-            return tc.LongTensor(mb_field)
-        return tc.FloatTensor(mb_field)
+            return tc.LongTensor(mb_field).to('cuda:0')
+        return tc.FloatTensor(mb_field).to('cuda:0')
 
     # minibatch data tensors
     mb_obs = get_tensor('obs', 'long')
@@ -62,9 +62,9 @@ def compute_losses(
 
     # input for loss calculations
     B = len(meta_episodes)
-    ac_dummy = tc.zeros(dtype=tc.int64, size=(B,))
-    rew_dummy = tc.zeros(dtype=tc.float32, size=(B,))
-    done_dummy = tc.ones(dtype=tc.float32, size=(B,))
+    ac_dummy = tc.zeros(dtype=tc.int64, size=(B,)).to('cuda:0')
+    rew_dummy = tc.zeros(dtype=tc.float32, size=(B,)).to('cuda:0')
+    done_dummy = tc.ones(dtype=tc.float32, size=(B,)).to('cuda:0')
 
     curr_obs = mb_obs
     prev_action = tc.cat((ac_dummy.unsqueeze(1), mb_acs[:, 0:-1]), dim=1)
